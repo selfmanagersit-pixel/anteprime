@@ -37,7 +37,7 @@ function init(canvas,svgEl,rm){reduce=rm;svg=svgEl;buildSvg();try{renderer=new T
   mat=new THREE.ShaderMaterial({vertexShader:VS,fragmentShader:FS,uniforms:U,depthTest:false});scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),mat));
   document.addEventListener('visibilitychange',()=>{running=!document.hidden})}
  resize();addEventListener('resize',resize);return ok}
-function resize(){const W=innerWidth,Ht=innerHeight,s=Math.max(W/1600,Ht/900),vw=W/s,vh=Ht/s,focus=W<760?470:720;vb={vx:Math.max(0,Math.min(1600-vw,focus-vw/2)),vy:900-vh,s,W,H:Ht};svg.setAttribute('viewBox',`${vb.vx} ${vb.vy} ${vw} ${vh}`);if(ok){renderer.setSize(W,Ht,false);U.uRes.value.set(W*renderer.getPixelRatio(),Ht*renderer.getPixelRatio());U.uSunR.value=Math.min(.065,.045*Math.max(1,W/Ht)*.8+.012);U.uMoonR.value=U.uSunR.value*.62}}
+function resize(){const W=innerWidth,Ht=innerHeight,s=Math.max(W/1600,Ht/900),vw=W/s,vh=Ht/s,focus=W<760?470:720,off=W<761&&Ht>W?Math.max(0,214-132*s)/s:0;vb={vx:Math.max(0,Math.min(1600-vw,focus-vw/2)),vy:900-vh+off,s,W,H:Ht};svg.setAttribute('viewBox',`${vb.vx} ${vb.vy} ${vw} ${vh}`);if(ok){renderer.setSize(W,Ht,false);U.uRes.value.set(W*renderer.getPixelRatio(),Ht*renderer.getPixelRatio());U.uSunR.value=Math.min(.065,.045*Math.max(1,W/Ht)*.8+.012);U.uMoonR.value=U.uSunR.value*.62}}
 const toScreen=(x,y)=>[(x-vb.vx)*vb.s,(y-vb.vy)*vb.s];
 const hz=()=>1-toScreen(0,H)[1]/vb.H;
 function skyUV(az,alt){const x=.5+((az-VIEW_AZ+540)%360-180)/FOV,h=hz();return[x,h+Math.max(-.2,alt)/48*(1-h)]}
@@ -55,7 +55,7 @@ function buildSvg(){svg.innerHTML='';
  refs.palms=el('g',{class:'palms'},sil);palm(refs.palms,655,770,528,18);palm(refs.palms,770,770,566,-14);palm(refs.palms,1490,770,590,-10);
  const pav=el('g',{},sil);el('rect',{x:120,y:618,width:520,height:16},pav);el('rect',{x:140,y:634,width:480,height:136,class:'glassbg'},pav);refs.glass=el('g',{class:'glass'},pav);for(let x=146;x<612;x+=47.4)el('rect',{x,y:640,width:41,height:124,fill:'url(#gl)'},refs.glass);for(let x=140;x<=620;x+=47.4)el('rect',{x:x-2,y:634,width:5,height:136},pav);el('rect',{x:140,y:692,width:480,height:3},pav);refs.sign=el('text',{x:380,y:630,'text-anchor':'middle',class:'sign'},pav);refs.sign.textContent='P E S C H E R I A';
  refs.lights=el('g',{class:'lights'},sil);for(let i=0;i<=14;i++){const t=i/14,x=640+t*(770-640),y=572+Math.sin(t*Math.PI)*34+t*-8;el('circle',{cx:x,cy:y,r:2.6},refs.lights)}
- const quay=el('g',{},sil);el('rect',{x:-10,y:768,width:1620,height:150},quay);el('rect',{x:-10,y:766,width:1620,height:3,class:'edge'},quay);
+ const quay=el('g',{},sil);el('rect',{x:-10,y:768,width:1620,height:420},quay);el('rect',{x:-10,y:766,width:1620,height:3,class:'edge'},quay);
  refs.glow=el('g',{class:'glowl',filter:'url(#bl)'});el('rect',{x:146,y:640,width:470,height:124,fill:'#ffc77a'},refs.glow);el('ellipse',{cx:380,cy:778,rx:260,ry:10,fill:'#ffc77a'},refs.glow);}
 const ss=t=>t<=0?0:t>=1?1:t*t*(3-2*t);
 function boatsAt(m){const dock=[[640,612],[790,604],[935,598]];return dock.map(([dx,dy],i)=>{let x=dx;const out=240+i*15,back=375+i*28,arr=back+70;if(m>out&&m<out+60)x=dx+ss((m-out)/60)*900;else if(m>=out+60&&m<back)x=2000;else if(m>=back&&m<arr)x=dx+(1-ss((m-back)/70))*900;return[x,dy]})}

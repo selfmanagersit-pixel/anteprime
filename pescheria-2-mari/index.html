@@ -34,9 +34,10 @@
 <div class="voice" aria-live="polite"><p class="v-main"></p><p class="v-sub"></p></div>
 
 <div class="day" id="day">
+ <nav class="rail" id="rail" aria-label="Cartellini"></nav>
  <div class="day-top">
   <p class="day-clock"><span class="dc">--:--</span><span class="mono day-status"></span></p>
-  <button class="mono day-now" type="button" hidden><span data-u="now">Torna ad adesso</span> <b class="day-nowt"></b></button>
+  <button class="mono day-now" type="button" hidden><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4v3.5H8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-u="now">Torna ad adesso</span> <b class="day-nowt"></b></button>
  </div>
  <div class="day-track" role="slider" tabindex="0" aria-label="Ora del giorno" aria-valuemin="0" aria-valuemax="1440">
   <div class="day-ticks"></div>
@@ -44,10 +45,11 @@
  </div>
 </div>
 
-<div class="hint mono" aria-hidden="true"><p data-u="hint">Scorri per muovere il tempo</p><p data-u="hint2">oppure trascina la linea del giorno</p></div>
+<div class="hint mono" aria-hidden="true"><svg viewBox="0 0 24 40" width="22" height="36"><rect x="7" y="1" width="10" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M12 24v14M7 29l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p data-u="hint">Scorri per muovere il tempo</p><p data-u="hint2">oppure trascina la linea del giorno</p></div>
 
 <div class="veil" data-close></div>
 <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-h" tabindex="-1">
+ <div class="sheet-grab" aria-hidden="true"></div>
  <button class="sheet-x" type="button" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.4"/></svg></button>
  <div class="sheet-in"></div>
 </aside>
