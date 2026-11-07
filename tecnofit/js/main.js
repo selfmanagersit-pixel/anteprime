@@ -27,6 +27,12 @@ $$('.card').forEach((c,i)=>c.style.setProperty('--i',i));
 const items=$$('.svc-list li'),imgs=$$('.svc-frame [data-k]');
 const setSvc=k=>{items.forEach(l=>l.classList.toggle('on',l.dataset.k==k));imgs.forEach(i=>i.classList.toggle('on',i.dataset.k==k))};
 items.forEach(l=>l.addEventListener('mouseenter',()=>setSvc(l.dataset.k)));
+const pk=$('.idx-peek');
+if(pk&&matchMedia('(hover:hover) and (pointer:fine)').matches){const im=$('img',pk);let tx=0,ty=0,cx=0,cy=0,on=false;
+  $$('.idx-list a').forEach(a=>{a.addEventListener('mouseenter',()=>{const n=a.dataset.img;pk.classList.toggle('spa',!n);if(n)im.src='assets/img/m/'+n+'.jpg';pk.classList.add('on');on=true});a.addEventListener('mouseleave',()=>{pk.classList.remove('on');on=false})});
+  $('.idx').addEventListener('mousemove',e=>{const r=$('.idx').getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top});
+  (function f(){cx+=(tx-cx)*.14;cy+=(ty-cy)*.14;pk.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%) rotate(${(tx-cx)*.04}deg)`;requestAnimationFrame(f)})();}
+$$('.acc-list li').forEach(li=>{const go=()=>{if(innerWidth<901)return;$$('.acc-list li').forEach(x=>x.classList.toggle('on',x===li))};li.addEventListener('mouseenter',go);li.querySelector('a').addEventListener('focus',go)});
 const lit=()=>$$('.regs li').forEach(l=>l.classList.add('lit'));
 if(!window.gsap){lit();return}
 gsap.registerPlugin(ScrollTrigger);
@@ -37,7 +43,7 @@ mm.add('(prefers-reduced-motion: no-preference)',()=>{
   $$('.hero-media,.ph-media').forEach(m=>tl.from(m,{clipPath:'polygon(0 100%,100% 100%,100% 100%,0 100%)',duration:1.4,ease:'expo.inOut'},.1));
   if($('.hero'))gsap.to('.hero-media video',{yPercent:8,scale:1.06,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
   const c=$('.count');if(c){const o={v:0};c.textContent='0';ScrollTrigger.create({trigger:'.band',start:'top 80%',once:true,onEnter:()=>gsap.to(o,{v:48,duration:1.6,ease:'expo.out',onUpdate:()=>c.textContent=Math.round(o.v)})});gsap.from('.band-t',{x:40,autoAlpha:0,duration:1,ease:'expo.out',scrollTrigger:{trigger:'.band',start:'top 70%'}})}
-  $$('main h2').forEach(h=>gsap.from(h,{y:40,autoAlpha:0,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:h,start:'top 88%'}}));
+  $$('main h2').filter(h=>!h.closest('.story')).forEach(h=>gsap.from(h,{y:40,autoAlpha:0,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:h,start:'top 88%'}}));
   ScrollTrigger.batch('.tile',{start:'top 92%',onEnter:b=>gsap.from(b,{clipPath:'polygon(0 0,100% 0,100% 0,0 0)',duration:1,ease:'expo.inOut',stagger:.06,clearProps:'clipPath'})});
   $$('.srow figure').forEach(f=>{gsap.from(f,{clipPath:'polygon(0 0,100% 0,100% 0,0 0)',duration:1.3,ease:'expo.inOut',scrollTrigger:{trigger:f,start:'top 80%'}});gsap.fromTo($('img',f),{yPercent:-6},{yPercent:0,ease:'none',scrollTrigger:{trigger:f,start:'top bottom',end:'bottom top',scrub:true}})});
   gsap.utils.toArray('.par-logos,.brands article,.contr li,.vals li,.contacts dl>div,.dia-ph img').forEach(el=>gsap.from(el,{y:40,autoAlpha:0,duration:1,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 90%'}}));
